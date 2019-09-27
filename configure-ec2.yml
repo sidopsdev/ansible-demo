@@ -1,0 +1,19 @@
+- name: Configurations to "remote" host
+  hosts: ec2
+  remote_user: ubuntu # Remote user
+  become: yes
+  roles:
+    - setup
+
+- name: Running the container
+  hosts: ec2
+  remote_user: ubuntu # Remote user
+  become: yes
+  tasks:
+    - name: Run hello word
+      docker_container:
+        name: hello-world
+        image: rancher/hello-world
+        state: started
+        ports:
+          - "80:80"
